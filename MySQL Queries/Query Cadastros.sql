@@ -1,0 +1,22 @@
+CREATE TABLE operadoras_saude (
+    Registro_ANS INT PRIMARY KEY,
+    CNPJ VARCHAR(14) NOT NULL,
+    Razao_Social VARCHAR(255) NOT NULL,
+    Nome_Fantasia VARCHAR(255),
+    Modalidade VARCHAR(100) NOT NULL,
+    Logradouro VARCHAR(255) NOT NULL,
+    Numero VARCHAR(10) NOT NULL,
+    Complemento VARCHAR(100),
+    Bairro VARCHAR(100) NOT NULL,
+    Cidade VARCHAR(100) NOT NULL,
+    UF CHAR(2) NOT NULL,
+    CEP VARCHAR(8) NOT NULL,
+    DDD CHAR(2) NOT NULL,
+    Telefone VARCHAR(15) NOT NULL,
+    Fax VARCHAR(15),
+    Endereco_eletronico VARCHAR(255),
+    Representante VARCHAR(255) NOT NULL,
+    Cargo_Representante VARCHAR(100) NOT NULL,
+    Regiao_de_Comercializacao INT NOT NULL,
+    Data_Registro_ANS DATE NOT NULL
+);

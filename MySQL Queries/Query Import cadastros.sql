@@ -1,0 +1,6 @@
+LOAD DATA INFILE 'CSV/Dados Cadastrais/Relatorio_cadop.csv'
+INTO TABLE operadoras_saude
+FIELDS TERMINATED BY ';'
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;

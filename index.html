@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Busca de Operadoras</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            text-align: center;
+        }
+        input {
+            padding: 8px;
+            width: 80%;
+            margin: 10px;
+        }
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+        .erro {
+            color: red;
+            font-weight: bold;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <h1>Buscar Operadora por CNPJ</h1>
+
+        <input v-model="cnpj" type="text" placeholder="Digite o CNPJ">
+        <button @click="buscarOperadora">Buscar</button>
+
+        <p v-if="erro" class="erro">{{ erro }}</p>
+
+        <div v-if="resultados.length">
+            <h2>Resultados:</h2>
+            <ul>
+                <li v-for="(operadora, index) in resultados" :key="index">
+                    <strong>{{ operadora.Razao_Social || "Nome não disponível" }}</strong> - CNPJ: {{ operadora.CNPJ }}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    cnpj: "",
+                    resultados: [],
+                    erro: "",
+                };
+            },
+            methods: {
+                async buscarOperadora() {
+                    this.erro = "";
+                    this.resultados = [];
+
+                    if (!this.cnpj.trim()) {
+                        this.erro = "Por favor, insira um CNPJ.";
+                        return;
+                    }
+
+                    try {
+                        const response = await axios.get(`http://127.0.0.1:5000/buscar?cnpj=${this.cnpj}`);
+                        this.resultados = response.data;
+                        if (this.resultados.length === 0) {
+                            this.erro = "Nenhuma operadora encontrada para esse CNPJ.";
+                        }
+                    } catch (error) {
+                        console.error("Erro ao buscar operadora:", error);
+                        this.erro = "Erro ao buscar operadora. Tente novamente.";
+                    }
+                },
+            },
+        });
+
+        app.mount("#app");
+    </script>
+
+</body>
+</html>

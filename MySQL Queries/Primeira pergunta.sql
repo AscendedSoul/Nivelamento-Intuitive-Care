@@ -1,0 +1,11 @@
+SELECT 
+    o.CNPJ
+FROM operadoras_saude o
+JOIN (
+    SELECT c.REG_ANS
+    FROM contabilidade2024 c
+    WHERE c.DESCRICAO = 'PARTICIPAÇÃO DOS BENEFICIÁRIOS EM EVENTOS/SINISTROS INDENIZADOS'
+    GROUP BY c.REG_ANS
+    ORDER BY SUM(c.VL_SALDO_FINAL - c.VL_SALDO_INICIAL) DESC
+    LIMIT 10
+) AS top_operadoras ON o.Registro_ANS = top_operadoras.REG_ANS;
